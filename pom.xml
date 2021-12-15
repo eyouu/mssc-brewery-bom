@@ -66,7 +66,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- DEPENDENCY EVERY CHILD WILL HAVE -->
+    <!-- DEPENDENCIES EVERY CHILD WILL HAVE -->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -117,4 +117,80 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- Maven build plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!-- Lombok - MapStruct plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-version</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!-- Build will not fail if mvn version 3.6.0 or higher. Else it will. -->
+                                <requireMavenResion>
+                                    <version>[3.6.0,)</version>
+                                </requireMavenResion>
+
+                                <requireJavaVersion>
+                                    <version>11</version>
+                                </requireJavaVersion>
+
+                                <requireReleaseDeps>
+                                    <onlyWhenRelease>tru</onlyWhenRelease>
+                                    <message>Release build must not have on snapshot dependencies</message>
+                                </requireReleaseDeps>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
