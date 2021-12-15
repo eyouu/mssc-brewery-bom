@@ -161,36 +161,6 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-version</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <!-- Build will not fail if mvn version 3.6.0 or higher. Else it will. -->
-                                <requireMavenResion>
-                                    <version>[3.6.0,)</version>
-                                </requireMavenResion>
-
-                                <requireJavaVersion>
-                                    <version>11</version>
-                                </requireJavaVersion>
-
-                                <requireReleaseDeps>
-                                    <onlyWhenRelease>tru</onlyWhenRelease>
-                                    <message>Release build must not have on snapshot dependencies</message>
-                                </requireReleaseDeps>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
